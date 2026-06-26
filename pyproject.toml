@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "biodataset-sentinel"
+version = "0.1.0"
+description = "Pre-analysis validation for biological sample tables and measurement matrices."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+  { name = "BioDataset Sentinel Maintainers" }
+]
+keywords = [
+  "bioinformatics",
+  "quality-control",
+  "metadata",
+  "omics",
+  "reproducibility",
+  "data-validation"
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Bio-Informatics"
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/Kawamoux/biodataset-sentinel"
+Issues = "https://github.com/Kawamoux/biodataset-sentinel/issues"
+
+[project.scripts]
+biosentinel = "biosentinel.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+biosentinel = ["py.typed"]
