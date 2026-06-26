@@ -9,6 +9,7 @@ from typing import Sequence
 
 from .audit import audit_dataset
 from .io import DataFormatError
+from .microtrace import audit_microtrace_report
 from .report import write_html_report, write_json_report
 
 
@@ -17,6 +18,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parser.parse_args(argv)
     if args.command == "audit":
         return _audit_command(args)
+    if args.command in {"audit-microtrace", "audit-metatrace"}:
+        return _microtrace_command(args)
     parser.print_help()
     return 2
 
@@ -42,6 +45,28 @@ def build_parser() -> argparse.ArgumentParser:
     audit.add_argument("--json-report", help="write a machine-readable JSON report")
     audit.add_argument("--html-report", help="write a human-readable HTML report")
     audit.add_argument(
+        "--fail-on",
+        choices=["error", "warning", "never"],
+        default="error",
+        help="control the process exit code threshold",
+    )
+
+    microtrace = subparsers.add_parser(
+        "audit-microtrace",
+        aliases=["audit-metatrace"],
+        help="audit a MicroTrace report directory",
+    )
+    microtrace.add_argument("report_dir", help="directory containing summary.csv and objects.csv")
+    microtrace.add_argument("--dataset-name", default="microtrace report", help="dataset label stored in reports")
+    microtrace.add_argument(
+        "--min-images-per-condition",
+        type=int,
+        default=2,
+        help="minimum images expected per MicroTrace condition",
+    )
+    microtrace.add_argument("--json-report", help="write a machine-readable JSON report")
+    microtrace.add_argument("--html-report", help="write a human-readable HTML report")
+    microtrace.add_argument(
         "--fail-on",
         choices=["error", "warning", "never"],
         default="error",
@@ -82,6 +107,39 @@ def _audit_command(args: argparse.Namespace) -> int:
     counts = report.summary.issue_counts
     print(
         "BioDataset Sentinel: "
+        f"{report.summary.status} "
+        f"({counts['error']} errors, {counts['warning']} warnings, {counts['info']} info)"
+    )
+
+    return _exit_code(report.summary.issue_counts, fail_on=args.fail_on)
+
+
+def _microtrace_command(args: argparse.Namespace) -> int:
+    try:
+        report = audit_microtrace_report(
+            args.report_dir,
+            dataset_name=args.dataset_name,
+            min_images_per_condition=args.min_images_per_condition,
+        )
+    except FileNotFoundError as exc:
+        missing = exc.filename or str(exc)
+        print(f"MicroTrace report is missing required file: {Path(missing).name}", file=sys.stderr)
+        return 2
+    except PermissionError:
+        print("MicroTrace report could not be read because permissions were denied.", file=sys.stderr)
+        return 2
+    except (OSError, DataFormatError) as exc:
+        print(f"MicroTrace report could not be parsed: {exc}", file=sys.stderr)
+        return 2
+
+    if args.json_report:
+        write_json_report(report, Path(args.json_report))
+    if args.html_report:
+        write_html_report(report, Path(args.html_report))
+
+    counts = report.summary.issue_counts
+    print(
+        "BioDataset Sentinel MicroTrace audit: "
         f"{report.summary.status} "
         f"({counts['error']} errors, {counts['warning']} warnings, {counts['info']} info)"
     )

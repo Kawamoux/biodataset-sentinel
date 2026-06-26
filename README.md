@@ -100,6 +100,32 @@ biosentinel audit \
 Le rapport HTML est destine a la lecture humaine. Le rapport JSON est destine a
 l'archivage, au suivi de qualite, aux notebooks et aux controles automatises.
 
+### Utiliser BioDataset Sentinel avec MicroTrace ou MetaTrace
+
+Les rapports MicroTrace contiennent generalement un dossier avec `summary.csv`,
+`objects.csv`, `statistics.csv` et `report.html`. BioDataset Sentinel peut
+auditer directement ce dossier :
+
+```bash
+biosentinel audit-microtrace results/pollen-html \
+  --json-report microtrace-audit.json \
+  --html-report microtrace-audit.html
+```
+
+L'alias suivant est aussi disponible si votre projet ou vos notes utilisent le
+nom MetaTrace :
+
+```bash
+biosentinel audit-metatrace results/pollen-html \
+  --json-report metatrace-audit.json
+```
+
+Ce mode verifie la coherence entre `summary.csv` et `objects.csv`, recalcule les
+agregats principaux, signale les valeurs numeriques invalides, detecte les
+objets qui touchent les bords de l'image et applique les memes garde-fous de
+confidentialite aux identifiants d'images et aux metadonnees exportees. Le
+rapport BioDataset Sentinel ne conserve pas le chemin absolu du dossier audite.
+
 ### Format attendu des fichiers
 
 La table d'echantillons doit contenir une colonne `sample_id`.
@@ -325,6 +351,32 @@ biosentinel audit \
 
 The HTML report is intended for human review. The JSON report is intended for
 archival, quality tracking, notebooks, and automated checks.
+
+### Using BioDataset Sentinel with MicroTrace or MetaTrace
+
+MicroTrace reports usually contain a directory with `summary.csv`, `objects.csv`,
+`statistics.csv`, and `report.html`. BioDataset Sentinel can audit that directory
+directly:
+
+```bash
+biosentinel audit-microtrace results/pollen-html \
+  --json-report microtrace-audit.json \
+  --html-report microtrace-audit.html
+```
+
+The following alias is also available if your project or notes use the MetaTrace
+name:
+
+```bash
+biosentinel audit-metatrace results/pollen-html \
+  --json-report metatrace-audit.json
+```
+
+This mode checks consistency between `summary.csv` and `objects.csv`,
+recalculates key aggregates, flags invalid numeric values, detects segmented
+objects touching image boundaries, and applies the same privacy guardrails to
+image identifiers and exported metadata. The BioDataset Sentinel report does not
+store the absolute path of the audited directory.
 
 ### Expected file format
 

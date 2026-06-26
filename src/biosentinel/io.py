@@ -22,6 +22,11 @@ def read_feature_table(path: str | Path, *, id_column: str = "feature_id") -> Fe
     return FeatureTable(headers=headers, records=_records(headers, rows), id_column=id_column)
 
 
+def read_table_records(path: str | Path) -> tuple[list[str], list[dict[str, str]]]:
+    headers, rows = _read_delimited(path)
+    return headers, _records(headers, rows)
+
+
 def read_measurement_matrix(
     path: str | Path,
     *,

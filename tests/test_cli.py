@@ -59,6 +59,12 @@ class CliTests(unittest.TestCase):
 
         self.assertEqual(exit_code, 1)
 
+    def test_cli_reports_missing_microtrace_file(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            exit_code = main(["audit-microtrace", tmpdir])
+
+        self.assertEqual(exit_code, 2)
+
 
 if __name__ == "__main__":
     unittest.main()
