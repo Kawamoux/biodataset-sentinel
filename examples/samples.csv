@@ -1,0 +1,7 @@
+sample_id,condition,batch,organism,tissue,extraction_protocol
+S01,control,B1,Arabidopsis thaliana,leaf,standard_v1
+S02,control,B2,Arabidopsis thaliana,leaf,standard_v1
+S03,control,B3,Arabidopsis thaliana,leaf,standard_v1
+S04,treated,B1,Arabidopsis thaliana,leaf,standard_v1
+S05,treated,B2,Arabidopsis thaliana,leaf,standard_v1
+S06,treated,B3,Arabidopsis thaliana,leaf,standard_v1

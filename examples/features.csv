@@ -1,0 +1,9 @@
+feature_id,biotype,description
+gene_001,protein_coding,synthetic stress response marker
+gene_002,protein_coding,synthetic transport marker
+gene_003,lncRNA,synthetic regulatory transcript
+gene_004,protein_coding,synthetic housekeeping marker
+gene_005,protein_coding,synthetic low abundance marker
+gene_006,protein_coding,synthetic stable marker
+gene_007,protein_coding,synthetic balanced marker
+gene_008,pseudogene,synthetic unobserved marker
