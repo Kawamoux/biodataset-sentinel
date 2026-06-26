@@ -76,7 +76,8 @@ def duplicated_values(values: Iterable[str]) -> list[str]:
 
 
 def _read_delimited(path: str | Path) -> tuple[list[str], list[list[str]]]:
-    text = Path(path).read_text(encoding="utf-8-sig", newline="")
+    with Path(path).open("r", encoding="utf-8-sig", newline="") as handle:
+        text = handle.read()
     if not text.strip():
         raise DataFormatError("input file is empty")
 
