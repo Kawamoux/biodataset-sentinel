@@ -1,90 +1,90 @@
 # BioDataset Sentinel
 
-## Francais
+## Français
 
-BioDataset Sentinel est un outil de controle qualite pre-analyse pour les jeux
-de donnees biologiques. Son objectif est simple : detecter les erreurs
-silencieuses avant qu'elles ne deviennent des resultats, des figures, des
-conclusions ou des decisions de recherche. Le projet se concentre sur un cas
-tres frequent en biologie computationnelle : une table d'echantillons, une
-matrice de mesures biologiques et, si necessaire, une table d'annotation des
+BioDataset Sentinel est un outil de contrôle qualité pré-analyse pour les jeux
+de données biologiques. Son objectif est simple : détecter les erreurs
+silencieuses avant qu'elles ne deviennent des résultats, des figures, des
+conclusions ou des décisions de recherche. Le projet se concentre sur un cas
+très fréquent en biologie computationnelle : une table d'échantillons, une
+matrice de mesures biologiques et, si nécessaire, une table d'annotation des
 features.
 
-Un pipeline peut etre statistiquement impeccable tout en produisant des
-conclusions fragiles si les echantillons ne sont pas alignes, si une variable de
-lot est confondue avec le phenotype, si une colonne derivee de la cible fuit
-dans les metadonnees, ou si une matrice contient des valeurs non numeriques
+Un pipeline peut être statistiquement impeccable tout en produisant des
+conclusions fragiles si les échantillons ne sont pas alignés, si une variable de
+lot est confondue avec le phénotype, si une colonne dérivée de la cible fuit
+dans les métadonnées, ou si une matrice contient des valeurs non numériques
 introduites par erreur. BioDataset Sentinel transforme ces points faibles en
-verifications explicites, reproductibles et documentees.
+vérifications explicites, reproductibles et documentées.
 
 ### Pourquoi ce projet existe
 
-Les equipes de recherche manipulent souvent des fichiers CSV, TSV ou exports de
-LIMS avant d'entrer dans des outils plus specialises. A ce stade, plusieurs
-erreurs peuvent passer inapercues :
+Les équipes de recherche manipulent souvent des fichiers CSV, TSV ou exports de
+LIMS avant d'entrer dans des outils plus spécialisés. À ce stade, plusieurs
+erreurs peuvent passer inaperçues :
 
-- echantillons presents dans la matrice mais absents de la table metadata ;
-- doublons d'identifiants apres fusion manuelle ;
-- lignes de matrice constantes ou entierement nulles ;
-- distributions de profondeur de sequencage tres desequilibrees ;
-- lots experimentaux quasiment equivalents aux groupes biologiques ;
-- colonnes de metadonnees contenant des chemins locaux, adresses e-mail ou
-  informations non destinees a etre partagees ;
-- labels reutilises par inadvertance dans des colonnes d'analyse.
+- échantillons présents dans la matrice mais absents de la table metadata ;
+- doublons d'identifiants après fusion manuelle ;
+- lignes de matrice constantes ou entièrement nulles ;
+- distributions de profondeur de séquençage très déséquilibrées ;
+- lots expérimentaux quasiment équivalents aux groupes biologiques ;
+- colonnes de métadonnées contenant des chemins locaux, adresses e-mail ou
+  informations non destinées à être partagées ;
+- labels réutilisés par inadvertance dans des colonnes d'analyse.
 
-Ces problemes ne se voient pas toujours dans les tests unitaires d'un pipeline,
-car ils appartiennent aux donnees elles-memes. BioDataset Sentinel sert de
-garde-fou avant l'analyse, avant le depot public et avant la revue interne.
+Ces problèmes ne se voient pas toujours dans les tests unitaires d'un pipeline,
+car ils appartiennent aux données elles-mêmes. BioDataset Sentinel sert de
+garde-fou avant l'analyse, avant le dépôt public et avant la revue interne.
 
-### Ce que l'outil verifie
+### Ce que l'outil vérifie
 
-BioDataset Sentinel produit une liste structuree d'observations classees par
-severite. Les categories actuelles sont :
+BioDataset Sentinel produit une liste structurée d'observations classées par
+sévérité. Les catégories actuelles sont :
 
-- **Schema** : colonnes requises, noms de colonnes dupliques, identifiants vides
-  ou dupliques.
-- **Alignement** : correspondance entre les echantillons de la table metadata et
+- **Schéma** : colonnes requises, noms de colonnes dupliqués, identifiants vides
+  ou dupliqués.
+- **Alignement** : correspondance entre les échantillons de la table metadata et
   les colonnes de la matrice.
-- **Numerique** : valeurs manquantes, valeurs non numeriques, valeurs negatives
+- **Numérique** : valeurs manquantes, valeurs non numériques, valeurs négatives
   inattendues dans une matrice de comptages.
-- **Sparsity** : proportion de zeros par echantillon et par feature.
-- **Signal utile** : features constantes, features entierement nulles,
-  echantillons sans signal.
-- **Profondeur / intensite globale** : taille de bibliotheque ou somme des
-  mesures par echantillon, avec detection robuste des valeurs atypiques.
-- **Replicats** : groupes experimentaux trop peu representes pour une analyse
+- **Sparsité** : proportion de zéros par échantillon et par feature.
+- **Signal utile** : features constantes, features entièrement nulles,
+  échantillons sans signal.
+- **Profondeur / intensité globale** : taille de bibliothèque ou somme des
+  mesures par échantillon, avec détection robuste des valeurs atypiques.
+- **Réplicats** : groupes expérimentaux trop peu représentés pour une analyse
   fiable.
-- **Confusion phenotype-lot** : association forte entre une colonne de lot et la
-  variable d'interet.
-- **Fuite potentielle de label** : colonnes de metadonnees qui predisent
-  parfaitement la cible et doivent etre examinees.
-- **Confidentialite** : motifs compatibles avec des chemins de fichiers locaux,
-  adresses e-mail, numeros de telephone ou jetons longs.
+- **Confusion phénotype-lot** : association forte entre une colonne de lot et la
+  variable d'intérêt.
+- **Fuite potentielle de label** : colonnes de métadonnées qui prédisent
+  parfaitement la cible et doivent être examinées.
+- **Confidentialité** : motifs compatibles avec des chemins de fichiers locaux,
+  adresses e-mail, numéros de téléphone ou jetons longs.
 
-Chaque observation contient un identifiant stable, une severite, un message
-court, un contexte exploitable et une recommandation. Les rapports peuvent etre
-consommes par un humain, un notebook ou une integration CI.
+Chaque observation contient un identifiant stable, une sévérité, un message
+court, un contexte exploitable et une recommandation. Les rapports peuvent être
+consommés par un humain, un notebook ou une intégration CI.
 
 ### Installation
 
-Depuis un clone du depot :
+Depuis un clone du dépôt :
 
 ```bash
 python -m pip install .
 ```
 
-Pour developper et lancer les tests :
+Pour développer et lancer les tests :
 
 ```bash
 python -m pip install -e .
 python -m unittest discover -s tests
 ```
 
-Le projet ne depend d'aucune bibliotheque externe pour son execution. Cette
-decision rend l'outil facile a auditer, simple a installer dans un environnement
-isole et stable dans les pipelines a long terme.
+Le projet ne dépend d'aucune bibliothèque externe pour son exécution. Cette
+décision rend l'outil facile à auditer, simple à installer dans un environnement
+isolé et stable dans les pipelines à long terme.
 
-### Demarrage rapide
+### Démarrage rapide
 
 ```bash
 biosentinel audit \
@@ -97,12 +97,12 @@ biosentinel audit \
   --json-report report.json
 ```
 
-Le rapport HTML est destine a la lecture humaine. Le rapport JSON est destine a
-l'archivage, au suivi de qualite, aux notebooks et aux controles automatises.
+Le rapport HTML est destiné à la lecture humaine. Le rapport JSON est destiné à
+l'archivage, au suivi de qualité, aux notebooks et aux contrôles automatisés.
 
 ### Utiliser BioDataset Sentinel avec MicroTrace ou MetaTrace
 
-Les rapports MicroTrace contiennent generalement un dossier avec `summary.csv`,
+Les rapports MicroTrace contiennent généralement un dossier avec `summary.csv`,
 `objects.csv`, `statistics.csv` et `report.html`. BioDataset Sentinel peut
 auditer directement ce dossier :
 
@@ -120,15 +120,15 @@ biosentinel audit-metatrace results/pollen-html \
   --json-report metatrace-audit.json
 ```
 
-Ce mode verifie la coherence entre `summary.csv` et `objects.csv`, recalcule les
-agregats principaux, signale les valeurs numeriques invalides, detecte les
-objets qui touchent les bords de l'image et applique les memes garde-fous de
-confidentialite aux identifiants d'images et aux metadonnees exportees. Le
-rapport BioDataset Sentinel ne conserve pas le chemin absolu du dossier audite.
+Ce mode vérifie la cohérence entre `summary.csv` et `objects.csv`, recalcule les
+agrégats principaux, signale les valeurs numériques invalides, détecte les
+objets qui touchent les bords de l'image et applique les mêmes garde-fous de
+confidentialité aux identifiants d'images et aux métadonnées exportées. Le
+rapport BioDataset Sentinel ne conserve pas le chemin absolu du dossier audité.
 
 ### Format attendu des fichiers
 
-La table d'echantillons doit contenir une colonne `sample_id`.
+La table d'échantillons doit contenir une colonne `sample_id`.
 
 ```csv
 sample_id,condition,batch,organism
@@ -136,8 +136,8 @@ S01,control,B1,Arabidopsis thaliana
 S02,treated,B1,Arabidopsis thaliana
 ```
 
-La matrice doit contenir une premiere colonne `feature_id`, puis une colonne par
-echantillon.
+La matrice doit contenir une première colonne `feature_id`, puis une colonne par
+échantillon.
 
 ```csv
 feature_id,S01,S02
@@ -154,8 +154,8 @@ gene_001,protein_coding
 gene_002,lncRNA
 ```
 
-Les fichiers CSV et TSV sont detectes automatiquement a partir de leur contenu.
-Les valeurs sont lues comme du texte pour les tables de metadonnees et comme des
+Les fichiers CSV et TSV sont détectés automatiquement à partir de leur contenu.
+Les valeurs sont lues comme du texte pour les tables de métadonnées et comme des
 nombres pour la matrice.
 
 ### Utilisation en Python
@@ -176,83 +176,83 @@ for issue in report.issues:
     print(issue.severity, issue.code, issue.message)
 ```
 
-L'API renvoie des objets de donnees explicites. Elle ne conserve pas les chemins
-absolus des fichiers d'entree dans le rapport, afin de limiter les fuites
-d'information lorsque les rapports sont partages.
+L'API renvoie des objets de données explicites. Elle ne conserve pas les chemins
+absolus des fichiers d'entrée dans le rapport, afin de limiter les fuites
+d'information lorsque les rapports sont partagés.
 
-### Severites
+### Sévérités
 
-- `error` : probleme structurel qui peut invalider l'analyse ou empecher une
-  interpretation correcte.
-- `warning` : risque important qui merite une revue avant de continuer.
-- `info` : observation utile pour documenter la qualite du jeu de donnees.
+- `error` : problème structurel qui peut invalider l'analyse ou empêcher une
+  interprétation correcte.
+- `warning` : risque important qui mérite une revue avant de continuer.
+- `info` : observation utile pour documenter la qualité du jeu de données.
 
-Par defaut, la commande CLI renvoie un code de sortie non nul si au moins une
-erreur est detectee. Ce comportement permet une utilisation en integration
+Par défaut, la commande CLI renvoie un code de sortie non nul si au moins une
+erreur est détectée. Ce comportement permet une utilisation en intégration
 continue.
 
-### Confidentialite et partage
+### Confidentialité et partage
 
-BioDataset Sentinel est concu pour etre utilise avant le partage d'un jeu de
-donnees. L'outil signale les valeurs ressemblant a :
+BioDataset Sentinel est conçu pour être utilisé avant le partage d'un jeu de
+données. L'outil signale les valeurs ressemblant à :
 
-- des chemins Windows, Unix ou reseau ;
+- des chemins Windows, Unix ou réseau ;
 - des adresses e-mail ;
-- des numeros de telephone ;
-- des jetons longs ou identifiants techniques difficiles a distinguer de secrets.
+- des numéros de téléphone ;
+- des jetons longs ou identifiants techniques difficiles à distinguer de secrets.
 
-Le detecteur de confidentialite est volontairement conservateur. Un signalement
-ne signifie pas qu'une donnee est forcement sensible ; il indique qu'une revue
-humaine est necessaire. Les exemples fournis dans ce depot sont synthetiques et
-ne representent aucune personne, aucun patient et aucun projet reel.
+Le détecteur de confidentialité est volontairement conservateur. Un signalement
+ne signifie pas qu'une donnée est forcément sensible ; il indique qu'une revue
+humaine est nécessaire. Les exemples fournis dans ce dépôt sont synthétiques et
+ne représentent aucune personne, aucun patient et aucun projet réel.
 
-### Fiabilite scientifique
+### Fiabilité scientifique
 
 BioDataset Sentinel ne remplace pas l'expertise biologique, la planification
-experimentale ou les analyses statistiques specialisees. Il agit plus tot dans
-la chaine : il verifie que les entrees de l'analyse sont coherentes, lisibles et
-documentees. Cette position est importante, car une erreur d'alignement ou de
-lot peut survivre jusqu'a la fin d'un pipeline sans provoquer d'exception
+expérimentale ou les analyses statistiques spécialisées. Il agit plus tôt dans
+la chaîne : il vérifie que les entrées de l'analyse sont cohérentes, lisibles et
+documentées. Cette position est importante, car une erreur d'alignement ou de
+lot peut survivre jusqu'à la fin d'un pipeline sans provoquer d'exception
 technique.
 
-Les verifications sont volontairement explicables. L'outil privilegie des
-heuristiques robustes, inspectables et faciles a defendre dans une revue de
-code scientifique. Les valeurs atypiques sont detectees avec la mediane et la
-deviation absolue mediane lorsque c'est pertinent, afin de limiter l'influence
-des points extremes.
+Les vérifications sont volontairement explicables. L'outil privilégie des
+heuristiques robustes, inspectables et faciles à défendre dans une revue de
+code scientifique. Les valeurs atypiques sont détectées avec la médiane et la
+déviation absolue médiane lorsque c'est pertinent, afin de limiter l'influence
+des points extrêmes.
 
 ### Exemples de situations utiles
 
-- preparation d'un depot public de donnees ;
-- revue interne avant une analyse differentielle ;
-- verification rapide apres fusion de metadonnees ;
-- controle automatique dans un pipeline Snakemake, Nextflow ou Make ;
-- audit de fichiers recus d'un collaborateur ;
-- documentation de la qualite d'un jeu de donnees dans un rapport de projet.
+- préparation d'un dépôt public de données ;
+- revue interne avant une analyse différentielle ;
+- vérification rapide après fusion de métadonnées ;
+- contrôle automatique dans un pipeline Snakemake, Nextflow ou Make ;
+- audit de fichiers reçus d'un collaborateur ;
+- documentation de la qualité d'un jeu de données dans un rapport de projet.
 
 ### Limites
 
-L'outil ne determine pas si un design experimental est biologiquement optimal.
+L'outil ne détermine pas si un design expérimental est biologiquement optimal.
 Il ne calcule pas de p-values pour les tests d'association, ne normalise pas les
-donnees et ne choisit pas de modele statistique. Les avertissements sur la
-confusion ou la fuite de label doivent etre interpretes avec le contexte du
+données et ne choisit pas de modèle statistique. Les avertissements sur la
+confusion ou la fuite de label doivent être interprétés avec le contexte du
 projet.
 
 ### Feuille de route
 
-- profils de validation adaptes a RNA-seq, proteomique et cytometrie ;
+- profils de validation adaptés à RNA-seq, protéomique et cytométrie ;
 - export Markdown ;
-- integration optionnelle avec schemas declaratifs ;
+- intégration optionnelle avec schémas déclaratifs ;
 - seuils configurables par fichier YAML ;
-- rapport comparatif entre plusieurs versions d'un meme jeu de donnees.
+- rapport comparatif entre plusieurs versions d'un même jeu de données.
 
 ### Contribution
 
-Les contributions doivent rester reproductibles, testees et explicables. Toute
-nouvelle verification devrait inclure :
+Les contributions doivent rester reproductibles, testées et explicables. Toute
+nouvelle vérification devrait inclure :
 
 - un cas positif ;
-- un cas negatif ;
+- un cas négatif ;
 - une recommandation claire pour l'utilisateur ;
 - une justification scientifique courte dans la documentation ou le code.
 
